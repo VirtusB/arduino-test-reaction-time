@@ -1,0 +1,187 @@
+\hypertarget{test_8ino}{}\section{test.\+ino File Reference}
+\label{test_8ino}\index{test.ino@{test.ino}}
+{\ttfamily \#include \char`\"{}../../../\+Arduino/hardware/arduino/avr/cores/arduino/\+U\+S\+B\+A\+P\+I.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$E\+E\+P\+R\+O\+M.\+h$>$}\newline
+{\ttfamily \#include $<$S\+P\+I.\+h$>$}\newline
+{\ttfamily \#include $<$Ethernet.\+h$>$}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{test_8ino_a774a906ceb2672aee07483be36134011}\label{test_8ino_a774a906ceb2672aee07483be36134011}} 
+\#define {\bfseries M\+A\+X\+\_\+\+I\+N\+T\+\_\+\+S\+I\+ZE}~4294967295
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{test_8ino_a47343b8b7406f28cf29d8b0285fdd388}\label{test_8ino_a47343b8b7406f28cf29d8b0285fdd388}} 
+I\+P\+Address {\bfseries ip} (10, 233, 132, 24)
+\item 
+\mbox{\Hypertarget{test_8ino_acc33ddf5eb1a701fe7fc54e6c558f76b}\label{test_8ino_acc33ddf5eb1a701fe7fc54e6c558f76b}} 
+Ethernet\+Server {\bfseries server} (Web\+Server\+Port)
+\item 
+unsigned long \mbox{\hyperlink{test_8ino_acfe46c2625596d6b059364eae0d9de41}{get\+Random\+Delay}} ()
+\item 
+\mbox{\Hypertarget{test_8ino_acf86b2821b6508dcc5b16428d63d1dfd}\label{test_8ino_acf86b2821b6508dcc5b16428d63d1dfd}} 
+int {\bfseries aprintf} (char $\ast$str,...)
+\item 
+\mbox{\Hypertarget{test_8ino_a4fc01d736fe50cf5b977f755b675f11d}\label{test_8ino_a4fc01d736fe50cf5b977f755b675f11d}} 
+void {\bfseries setup} ()
+\item 
+\mbox{\Hypertarget{test_8ino_a347505306ad1e528ecf6b6f19866b5a5}\label{test_8ino_a347505306ad1e528ecf6b6f19866b5a5}} 
+void {\bfseries start\+Test} ()
+\item 
+\mbox{\Hypertarget{test_8ino_a56253a1424a135b174dcc12716a79d75}\label{test_8ino_a56253a1424a135b174dcc12716a79d75}} 
+void {\bfseries start\+Over} ()
+\item 
+boolean \mbox{\hyperlink{test_8ino_a832bc26a7873ae480d28907b29880813}{has\+Saved\+Score}} ()
+\item 
+unsigned long \mbox{\hyperlink{test_8ino_ae10d67159ad951c6d293550eba144547}{get\+Saved\+Score}} ()
+\item 
+\mbox{\Hypertarget{test_8ino_afe461d27b9c48d5921c00d521181f12f}\label{test_8ino_afe461d27b9c48d5921c00d521181f12f}} 
+void {\bfseries loop} ()
+\item 
+unsigned long \mbox{\hyperlink{test_8ino_a3991b3fec82a370bed6f323e5496ba34}{get\+Average\+Time\+For\+Runs}} ()
+\item 
+unsigned long \mbox{\hyperlink{test_8ino_a3f58cad8e546d58d8d275655e22964c9}{average}} (unsigned long $\ast$array)
+\item 
+void \mbox{\hyperlink{test_8ino_a5b02fbb87448a058cc6f3d4a1158afc2}{write\+Long}} (int address, unsigned long value\+To\+Save)
+\item 
+unsigned long \mbox{\hyperlink{test_8ino_a9481ce48d8cc7194d54460345fdc4a1e}{read\+Long}} (int address)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{test_8ino_a4ddb8b6ae564eb22f7c74f2683a63b8e}\label{test_8ino_a4ddb8b6ae564eb22f7c74f2683a63b8e}} 
+const int {\bfseries button\+Pin} = 2
+\item 
+\mbox{\Hypertarget{test_8ino_a2cd9f0d96c9cd0637798de3baa7aee60}\label{test_8ino_a2cd9f0d96c9cd0637798de3baa7aee60}} 
+const int {\bfseries led\+Pin} = 9
+\item 
+\mbox{\Hypertarget{test_8ino_aee47635c78d9c5f0aa27183bfa35d819}\label{test_8ino_aee47635c78d9c5f0aa27183bfa35d819}} 
+boolean {\bfseries is\+Led\+On} = false
+\item 
+\mbox{\Hypertarget{test_8ino_a9c86e8e71b0cc50fc8b7362cf5dfe382}\label{test_8ino_a9c86e8e71b0cc50fc8b7362cf5dfe382}} 
+boolean {\bfseries test\+Has\+Run} = false
+\item 
+\mbox{\Hypertarget{test_8ino_ab7291a0ad43230de4527fd9a0884a286}\label{test_8ino_ab7291a0ad43230de4527fd9a0884a286}} 
+unsigned long {\bfseries when\+Turned\+On} = N\+U\+LL
+\item 
+\mbox{\Hypertarget{test_8ino_afe4223fc496cda29c29b82bbb8f09b48}\label{test_8ino_afe4223fc496cda29c29b82bbb8f09b48}} 
+unsigned long {\bfseries when\+Button\+Clicked} = N\+U\+LL
+\item 
+\mbox{\Hypertarget{test_8ino_a67def723225fceb32a57f7024f7588e8}\label{test_8ino_a67def723225fceb32a57f7024f7588e8}} 
+boolean {\bfseries has\+Cheated} = false
+\item 
+\mbox{\Hypertarget{test_8ino_a24ea86697f33c3769f06300cc30b6cf3}\label{test_8ino_a24ea86697f33c3769f06300cc30b6cf3}} 
+int {\bfseries count\+Tests\+To\+Get\+Average} = 5
+\item 
+\mbox{\Hypertarget{test_8ino_ac90ba0cf53c85fd16b8d95d1f0f9c298}\label{test_8ino_ac90ba0cf53c85fd16b8d95d1f0f9c298}} 
+int {\bfseries current\+Tries} = 0
+\item 
+\mbox{\Hypertarget{test_8ino_ac462bdb2739adfafcdc80951a7ca009a}\label{test_8ino_ac462bdb2739adfafcdc80951a7ca009a}} 
+unsigned long {\bfseries test\+Run\+Times} \mbox{[}5\mbox{]}
+\item 
+\mbox{\Hypertarget{test_8ino_a5002611f83f5a861df12917dd5651db8}\label{test_8ino_a5002611f83f5a861df12917dd5651db8}} 
+int {\bfseries button\+State} = 0
+\item 
+byte {\bfseries mac} \mbox{[}$\,$\mbox{]}
+\item 
+\mbox{\Hypertarget{test_8ino_af37b150d7960fc164e55cf58aade65a3}\label{test_8ino_af37b150d7960fc164e55cf58aade65a3}} 
+const int {\bfseries Web\+Server\+Port} = 5000
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{test_8ino_a3f58cad8e546d58d8d275655e22964c9}\label{test_8ino_a3f58cad8e546d58d8d275655e22964c9}} 
+\index{test.ino@{test.ino}!average@{average}}
+\index{average@{average}!test.ino@{test.ino}}
+\subsubsection{\texorpdfstring{average()}{average()}}
+{\footnotesize\ttfamily unsigned long average (\begin{DoxyParamCaption}\item[{unsigned long $\ast$}]{array }\end{DoxyParamCaption})}
+
+Get the average value of an unsigned long array 
+\begin{DoxyParams}{Parameters}
+{\em array} & -\/ The array you want the average of \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+unsigned long 
+\end{DoxyReturn}
+\mbox{\Hypertarget{test_8ino_a3991b3fec82a370bed6f323e5496ba34}\label{test_8ino_a3991b3fec82a370bed6f323e5496ba34}} 
+\index{test.ino@{test.ino}!getAverageTimeForRuns@{getAverageTimeForRuns}}
+\index{getAverageTimeForRuns@{getAverageTimeForRuns}!test.ino@{test.ino}}
+\subsubsection{\texorpdfstring{getAverageTimeForRuns()}{getAverageTimeForRuns()}}
+{\footnotesize\ttfamily unsigned long get\+Average\+Time\+For\+Runs (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Get the average run time of 5 user tests in milliseconds \begin{DoxyReturn}{Returns}
+unsigned long 
+\end{DoxyReturn}
+\mbox{\Hypertarget{test_8ino_acfe46c2625596d6b059364eae0d9de41}\label{test_8ino_acfe46c2625596d6b059364eae0d9de41}} 
+\index{test.ino@{test.ino}!getRandomDelay@{getRandomDelay}}
+\index{getRandomDelay@{getRandomDelay}!test.ino@{test.ino}}
+\subsubsection{\texorpdfstring{getRandomDelay()}{getRandomDelay()}}
+{\footnotesize\ttfamily unsigned long get\+Random\+Delay (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Method that returns a random number between 5000 and 30000 \begin{DoxyReturn}{Returns}
+unsigned long 
+\end{DoxyReturn}
+\mbox{\Hypertarget{test_8ino_ae10d67159ad951c6d293550eba144547}\label{test_8ino_ae10d67159ad951c6d293550eba144547}} 
+\index{test.ino@{test.ino}!getSavedScore@{getSavedScore}}
+\index{getSavedScore@{getSavedScore}!test.ino@{test.ino}}
+\subsubsection{\texorpdfstring{getSavedScore()}{getSavedScore()}}
+{\footnotesize\ttfamily unsigned long get\+Saved\+Score (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns the user\textquotesingle{}s highscore \begin{DoxyReturn}{Returns}
+unsigned long 
+\end{DoxyReturn}
+\mbox{\Hypertarget{test_8ino_a832bc26a7873ae480d28907b29880813}\label{test_8ino_a832bc26a7873ae480d28907b29880813}} 
+\index{test.ino@{test.ino}!hasSavedScore@{hasSavedScore}}
+\index{hasSavedScore@{hasSavedScore}!test.ino@{test.ino}}
+\subsubsection{\texorpdfstring{hasSavedScore()}{hasSavedScore()}}
+{\footnotesize\ttfamily boolean has\+Saved\+Score (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns true if the user has a high score, else false \begin{DoxyReturn}{Returns}
+boolean 
+\end{DoxyReturn}
+\mbox{\Hypertarget{test_8ino_a9481ce48d8cc7194d54460345fdc4a1e}\label{test_8ino_a9481ce48d8cc7194d54460345fdc4a1e}} 
+\index{test.ino@{test.ino}!readLong@{readLong}}
+\index{readLong@{readLong}!test.ino@{test.ino}}
+\subsubsection{\texorpdfstring{readLong()}{readLong()}}
+{\footnotesize\ttfamily unsigned long read\+Long (\begin{DoxyParamCaption}\item[{int}]{address }\end{DoxyParamCaption})}
+
+Read a long value from E\+E\+P\+R\+OM 
+\begin{DoxyParams}{Parameters}
+{\em address} & -\/ The address of the value that should be read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+-\/ unsigned long that was read from the address 
+\end{DoxyReturn}
+\mbox{\Hypertarget{test_8ino_a5b02fbb87448a058cc6f3d4a1158afc2}\label{test_8ino_a5b02fbb87448a058cc6f3d4a1158afc2}} 
+\index{test.ino@{test.ino}!writeLong@{writeLong}}
+\index{writeLong@{writeLong}!test.ino@{test.ino}}
+\subsubsection{\texorpdfstring{writeLong()}{writeLong()}}
+{\footnotesize\ttfamily void write\+Long (\begin{DoxyParamCaption}\item[{int}]{address,  }\item[{unsigned long}]{value\+To\+Save }\end{DoxyParamCaption})}
+
+Writes a long to the E\+E\+P\+R\+OM 
+\begin{DoxyParams}{Parameters}
+{\em address} & -\/ The address where the value should be saved \\
+\hline
+{\em value\+To\+Save} & -\/ The value to save \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{test_8ino_aea3f7775fecafb66a619eb2dcb0357bd}\label{test_8ino_aea3f7775fecafb66a619eb2dcb0357bd}} 
+\index{test.ino@{test.ino}!mac@{mac}}
+\index{mac@{mac}!test.ino@{test.ino}}
+\subsubsection{\texorpdfstring{mac}{mac}}
+{\footnotesize\ttfamily byte mac\mbox{[}$\,$\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{        0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
