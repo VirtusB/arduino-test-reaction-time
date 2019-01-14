@@ -7,9 +7,9 @@
 
 /*
  * HOW TO PLAY
- * Click the button to start the test, the LED will turn on at a random time between 5 and 30 seconds
- * The LED will turn on 5 times where you will have to react as fast as you can, every time
- * Once 5 the LED has turned on 5 times, you will get your average reaction time from those 5 runs
+ * Click the button to start the test, the LED will turn on at random times between 5 and 30 seconds
+ * The LED will turn on 5 times where you will have to react as fast as you can
+ * Once the LED has turned on 5 times, you will get your average reaction time from those 5 runs
  */
 
 #define MAX_INT_SIZE 4294967295
@@ -87,6 +87,12 @@ IPAddress ip(10, 233, 132, 24);
 const int WebServerPort = 5000;
 
 /*
+ * Used in printWebPage method
+ * If a user has been served the complete webpage, the line will be a newline, \n, or blank
+ */
+boolean currentLineIsBlank = true;
+
+/*
  * The WebServer
  */
 EthernetServer server(WebServerPort);
@@ -94,7 +100,9 @@ EthernetServer server(WebServerPort);
 //! Method that returns a random number between 5000 and 30000
 //! \return unsigned long
 unsigned long getRandomDelay() {
-    return random(5, 30) * 1000;
+    int minDelaySeconds = 5;
+    int maxDelaySeconds = 30;
+    return random(minDelaySeconds, maxDelaySeconds) * 1000;
 }
 
 /*
@@ -140,12 +148,9 @@ int aprintf(char *str, ...) {
 }
 
 /*
- * This is the first function that runs.
- * It's responsible for setting up the WebServer, setting pinModes and starting the serial connection.
+ * This method starts listening at an IP, and starts the webserver
  */
-void setup() {
-    Serial.begin(9600);
-
+void setupEthernetListening() {
     Ethernet.begin(mac, ip);
     if (Ethernet.hardwareStatus() == EthernetNoHardware) {
         Serial.println("Ethernet shield was not found.  Sorry, can't run without hardware. :(");
@@ -154,9 +159,19 @@ void setup() {
         Serial.println("Ethernet cable is not connected.");
     }
     server.begin();
-    Serial.print("server is at ");
+    Serial.print("WebServer starter på ");
     Serial.println(Ethernet.localIP());
     Serial.println("\n");
+}
+
+/*
+ * This is the first function that runs.
+ * It's responsible for setting up the WebServer, setting pinModes and starting the serial connection.
+ */
+void setup() {
+    Serial.begin(9600);
+
+    setupEthernetListening();
 
     pinMode(ledPin, OUTPUT);
     pinMode(buttonPin, INPUT);
@@ -172,6 +187,10 @@ void setup() {
  * Method that starts the reaction time test
  */
 void startTest() {
+    if (currentTries == 0) {
+        Serial.println("Testen starter, vær klar på at reagere 5 gange\n");
+    }
+
     delay(getRandomDelay());
 
     digitalWrite(ledPin, HIGH);
@@ -205,43 +224,59 @@ unsigned long getSavedScore() {
 }
 
 /*
- * This method runs continuously, as fast as the CPU allows.
+ * This method prints a webpage to a client
  */
-void loop() {
+boolean printWebPage(EthernetClient client) {
+    char c = client.read();
+
+    if (c == '\n' && currentLineIsBlank && hasSavedScore()) {
+        client.println("HTTP/1.1 200 OK");
+        client.println("Content-Type: text/html");
+        client.println("Connection: close");
+        client.println();
+        client.println("<!DOCTYPE HTML>");
+        client.println("<html>");
+        client.println("<style>body {background: #333; color: #fff; font-size: 2rem;}</style>");
+
+        unsigned long bestAvg = getSavedScore();
+        client.print("Highscore: ");
+        client.print(bestAvg);
+        client.print(" ms");
+
+        client.println("</html>");
+        return true;
+    }
+    if (c == '\n') {
+        currentLineIsBlank = true;
+    } else if (c != '\r') {
+        currentLineIsBlank = false;
+    }
+    return false;
+}
+
+/*
+ * This method handles web clients
+ */
+void handleWebServerClient() {
     EthernetClient client = server.available();
     if (client) {
-        boolean currentLineIsBlank = true;
         while (client.connected()) {
             if (client.available()) {
-                char c = client.read();
-
-                if (c == '\n' && currentLineIsBlank && hasSavedScore()) {
-                    client.println("HTTP/1.1 200 OK");
-                    client.println("Content-Type: text/html");
-                    client.println("Connection: close");
-                    client.println();
-                    client.println("<!DOCTYPE HTML>");
-                    client.println("<html>");
-                    client.println("<style>body {background: #333; color: #fff; font-size: 2rem;}</style>");
-
-                    unsigned long bestAvg = getSavedScore();
-                    client.print("Highscore: ");
-                    client.print(bestAvg);
-                    client.print(" ms");
-
-                    client.println("</html>");
+                if (printWebPage(client)) {
                     break;
-                }
-                if (c == '\n') {
-                    currentLineIsBlank = true;
-                } else if (c != '\r') {
-                    currentLineIsBlank = false;
                 }
             }
         }
         delay(1);
         client.stop();
     }
+}
+
+/*
+ * This method runs continuously, as fast as the CPU allows.
+ */
+void loop() {
+    handleWebServerClient();
 
     if (digitalRead(buttonPin) == HIGH && testHasRun == false && isLedOn == false && whenTurnedOn == NULL && whenButtonClicked == NULL) {
         startTest();
@@ -252,57 +287,81 @@ void loop() {
         buttonState = digitalRead(buttonPin);
 
         if (buttonState == HIGH) {
-            whenButtonClicked = millis();
-            unsigned long timeItTook = whenButtonClicked - whenTurnedOn;
 
-            if (timeItTook <= 10 || timeItTook == 0) {
-                Serial.println("Du har snydt");
-                hasCheated = true;
-            } else {
-                aprintf("Det tog dig %d ms at reagere\n", timeItTook);
-                testRunTimes[currentTries] = timeItTook;
-                currentTries++;
-            }
-
-
-            if (currentTries == countTestsToGetAverage) {
-                unsigned long avg = getAverageTimeForRuns();
-                aprintf("Dit gennemsnit: %l ms\n", avg);
-                currentTries = 0;
-                if (hasSavedScore()) {
-                    unsigned long oldAvg = getSavedScore();
-                    if (avg < oldAvg) {
-                        unsigned long difference = oldAvg - avg;
-                        aprintf("Du har slået din highscore med %l ms\n", difference);
-                        writeLong(5300, avg);
-                    }
-                } else {
-                    aprintf("Din score blev gemt: %l ms\n", avg);
-                    writeLong(5300, avg);
-                }
-            } else if (hasCheated != true) {
-                aprintf("Du mangler %d forsøg for at få dit gennemsnit\n", countTestsToGetAverage - currentTries);
-            }
-
-
-            digitalWrite(ledPin, LOW);
-
-            if (currentTries < 5 && currentTries != 0 && hasCheated != true) {
-                startOver();
-                startTest();
-            } else {
-                Serial.println("Vent 2 sekunder for at starte igen\n");
-                delay(2000);
-
-                startOver();
-            }
-
+            handleCurrentRanTest();
+            handlePrintingAndSavingAverage();
+            handleEndOfTest();
 
         }
     }
 
 }
 
+/*
+ * Detects if the user cheated. If not, reaction time is printed
+ */
+void handleCurrentRanTest() {
+    whenButtonClicked = millis();
+    unsigned long timeItTook = whenButtonClicked - whenTurnedOn;
+
+    if (timeItTook <= 10 || timeItTook == 0) {
+        Serial.println("Du har snydt");
+        hasCheated = true;
+    } else {
+        aprintf("Det tog dig %d ms at reagere\n", timeItTook);
+        testRunTimes[currentTries] = timeItTook;
+        currentTries++;
+    }
+}
+
+/*
+ * Prints and saves the user's average reaction time, unless the user cheated
+ */
+void handlePrintingAndSavingAverage() {
+    if (currentTries == countTestsToGetAverage) {
+        unsigned long avg = getAverageTimeForRuns();
+        aprintf("\nDit gennemsnit: %l ms\n", avg);
+        currentTries = 0;
+
+        if (hasSavedScore()) {
+            unsigned long oldAvg = getSavedScore();
+            if (avg < oldAvg) {
+                unsigned long difference = oldAvg - avg;
+                aprintf("Du har slået din highscore med %l ms\n", difference);
+                saveScore(5300, avg);
+            }
+        } else {
+            aprintf("Din score blev gemt: %l ms\n", avg);
+            saveScore(5300, avg);
+        }
+    } else if (hasCheated != true) {
+        aprintf("Du mangler %d forsøg for at få dit gennemsnit\n", countTestsToGetAverage - currentTries);
+    }
+}
+
+/*
+ * Handles what happens after a test has run
+ */
+void handleEndOfTest() {
+    digitalWrite(ledPin, LOW);
+
+    if (currentTries < 5 && currentTries != 0 && hasCheated != true) {
+        startOver();
+        startTest();
+    } else {
+        Serial.println("Vent 2 sekunder for at starte igen\n");
+        delay(2000);
+
+        startOver();
+    }
+}
+
+/*
+ * Saved the score to the EEPROM
+ */
+void saveScore(int address, unsigned long avg) {
+    writeLong(address, avg);
+}
 
 
 //! Get the average run time of 5 user tests in milliseconds
