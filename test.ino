@@ -5,94 +5,91 @@
 #include <SPI.h>
 #include <Ethernet.h>
 
-/*
- * HOW TO PLAY
- * Click the button to start the test, the LED will turn on at random times between 5 and 30 seconds
- * The LED will turn on 5 times where you will have to react as fast as you can
- * Once the LED has turned on 5 times, you will get your average reaction time from those 5 runs
- */
 
+/**
+ * Maximum size of an integer
+ */
 #define MAX_INT_SIZE 4294967295
 
-/*
+/**
  * The integer number of the pushbutton pin
  */
 const int buttonPin = 2;
 
-/*
+/**
  * The integer number of the LED pin
  */
 const int ledPin =  9;
 
-/*
+/**
  * Boolean that will be true when the LED is turned on
  */
 boolean isLedOn = false;
 
-/*
+/**
  * Boolean that will be true when the reaction test has been run once
  */
 boolean testHasRun = false;
 
-/*
+/**
  * Unsigned long number of the time when LED is turned on, in milliseconds
  */
 unsigned long whenTurnedOn = NULL;
 
-/*
+/**
  * Unsigned long number of the time when the pushbutton is clicked, in milliseconds
  */
 unsigned long whenButtonClicked = NULL;
 
-/*
+/**
  * Boolean that will only be true if the user has cheated
  */
 boolean hasCheated = false;
 
-/*
+/**
  * The count of tests the user has to complete to get his average time
  */
 int countTestsToGetAverage = 5;
 
-/*
+/**
  * Number that stores how many tests the user has currently completed
  */
 int currentTries = 0;
 
-/*
+/**
  * An array that contains the user's test times. This will be used to the the average run time.
  */
 unsigned long testRunTimes[5];
 
-/*
+/**
  * Integer for storing the pushbutton status
  */
 int buttonState = 0;
 
-/*
+/**
  * MAC address of the Ethernet shield
  */
 byte mac[] = {
         0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED
 };
 
-/*
+/**
  * IP address of the WebServer
  */
-IPAddress ip(10, 233, 132, 24);
+IPAddress webServerIP(10, 233, 132, 24);
 
-/*
+/**
  * The HTTP port for the WebServer
  */
 const int WebServerPort = 5000;
 
-/*
+/**
  * Used in printWebPage method
- * If a user has been served the complete webpage, the line will be a newline, \n, or blank
+ * If a user has been served the complete webpage, the line will be a newline, or blank
  */
 boolean currentLineIsBlank = true;
 
-/*
+/**
  * The WebServer
  */
 EthernetServer server(WebServerPort);
@@ -105,9 +102,10 @@ unsigned long getRandomDelay() {
     return random(minDelaySeconds, maxDelaySeconds) * 1000;
 }
 
-/*
- * Method found on GitHub that formats a string. Works like sprintf()
- */
+//! Formats a string, works like sprintf(). Found on GitHub
+//! \param str
+//! \param ...
+//! \return count of supplied params
 int aprintf(char *str, ...) {
     int i, j, count = 0;
 
@@ -147,11 +145,11 @@ int aprintf(char *str, ...) {
     return count;
 }
 
-/*
- * This method starts listening at an IP, and starts the webserver
+/**
+ * This method starts listening at an IP, and starts the WebServer
  */
 void setupEthernetListening() {
-    Ethernet.begin(mac, ip);
+    Ethernet.begin(mac, webServerIP);
     if (Ethernet.hardwareStatus() == EthernetNoHardware) {
         Serial.println("Ethernet shield was not found.  Sorry, can't run without hardware. :(");
     }
@@ -164,7 +162,7 @@ void setupEthernetListening() {
     Serial.println("\n");
 }
 
-/*
+/**
  * This is the first function that runs.
  * It's responsible for setting up the WebServer, setting pinModes and starting the serial connection.
  */
@@ -183,7 +181,7 @@ void setup() {
 }
 
 
-/*
+/**
  * Method that starts the reaction time test
  */
 void startTest() {
@@ -199,7 +197,7 @@ void startTest() {
     whenTurnedOn = millis();
 }
 
-/*
+/**
  * Method that resets the test and makes it ready to be started again
  */
 void startOver() {
@@ -223,9 +221,9 @@ unsigned long getSavedScore() {
     return avg;
 }
 
-/*
- * This method prints a webpage to a client
- */
+//! Prints the webpage to a user
+//! \param client - EthernetClient
+//! \return - boolean, if the client was served the webpage
 boolean printWebPage(EthernetClient client) {
     char c = client.read();
 
@@ -254,7 +252,7 @@ boolean printWebPage(EthernetClient client) {
     return false;
 }
 
-/*
+/**
  * This method handles web clients
  */
 void handleWebServerClient() {
@@ -272,7 +270,7 @@ void handleWebServerClient() {
     }
 }
 
-/*
+/**
  * This method runs continuously, as fast as the CPU allows.
  */
 void loop() {
@@ -297,7 +295,7 @@ void loop() {
 
 }
 
-/*
+/**
  * Detects if the user cheated. If not, reaction time is printed
  */
 void handleCurrentRanTest() {
@@ -314,7 +312,7 @@ void handleCurrentRanTest() {
     }
 }
 
-/*
+/**
  * Prints and saves the user's average reaction time, unless the user cheated
  */
 void handlePrintingAndSavingAverage() {
@@ -339,7 +337,7 @@ void handlePrintingAndSavingAverage() {
     }
 }
 
-/*
+/**
  * Handles what happens after a test has run
  */
 void handleEndOfTest() {
@@ -356,16 +354,17 @@ void handleEndOfTest() {
     }
 }
 
-/*
- * Saved the score to the EEPROM
- */
+
+//! Saves the user's score to the EEPROM
+//! \param address - The address where the score will be saved
+//! \param avg - The average run time, unsigned long
 void saveScore(int address, unsigned long avg) {
     writeLong(address, avg);
 }
 
 
 //! Get the average run time of 5 user tests in milliseconds
-//! \return unsigned long
+//! \return - unsigned long
 unsigned long getAverageTimeForRuns() {
     unsigned long avg = average(testRunTimes);
     return avg;
@@ -373,7 +372,7 @@ unsigned long getAverageTimeForRuns() {
 
 //! Get the average value of an unsigned long array
 //! \param array - The array you want the average of
-//! \return unsigned long
+//! \return - unsigned long
 unsigned long average (unsigned long * array)
 {
     int len = sizeof(array);

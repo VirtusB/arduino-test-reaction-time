@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['readlong',['readLong',['../test_8ino.html#a9481ce48d8cc7194d54460345fdc4a1e',1,'test.ino']]]
+  ['ip',['ip',['../test_8ino.html#a47343b8b7406f28cf29d8b0285fdd388',1,'test.ino']]]
 ];

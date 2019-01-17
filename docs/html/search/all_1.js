@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['getaveragetimeforruns',['getAverageTimeForRuns',['../test_8ino.html#a3991b3fec82a370bed6f323e5496ba34',1,'test.ino']]],
-  ['getrandomdelay',['getRandomDelay',['../test_8ino.html#acfe46c2625596d6b059364eae0d9de41',1,'test.ino']]],
-  ['getsavedscore',['getSavedScore',['../test_8ino.html#ae10d67159ad951c6d293550eba144547',1,'test.ino']]]
+  ['buttonpin',['buttonPin',['../test_8ino.html#a4ddb8b6ae564eb22f7c74f2683a63b8e',1,'test.ino']]],
+  ['buttonstate',['buttonState',['../test_8ino.html#a5002611f83f5a861df12917dd5651db8',1,'test.ino']]]
 ];
